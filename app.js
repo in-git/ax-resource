@@ -18,7 +18,7 @@ folderPaths.forEach(folder => {
 		const filePaths = files.map(file => path.join(folder, file));
 
 		// 将文件路径列表写入JSON文件
-		const jsonFilePath = path.join(__dirname, `${folder}/json/.json`);
+		const jsonFilePath = path.join(__dirname, `json/${folder}.json`);
 		fs.writeFile(jsonFilePath, JSON.stringify(filePaths), err => {
 			if (err) {
 				console.error(`Error writing JSON file for ${folder}: ${err}`);
