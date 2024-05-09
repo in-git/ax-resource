@@ -6,7 +6,7 @@ const folderPaths = ['avatar', 'image-icon', 'public', 'wallpaper'];
 
 // 读取每个文件夹中的文件
 folderPaths.forEach(folder => {
-	const folderPath = path.join(__dirname, folder);
+	const folderPath = path.join(__dirname, `images/${folder}`);
 
 	fs.readdir(folderPath, (err, files) => {
 		if (err) {

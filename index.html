@@ -4,11 +4,39 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>AX资源目录</title>
 </head>
 
 <body>
-	AX资源目录
+	<div id="app">
+
+		<div v-for="item in category">
+			{{item.title}}
+		</div>
+	</div>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+	<script type="module">
+
+		const { createApp, ref } = Vue
+
+
+		const category = [
+			{
+				title: "壁纸",
+				data: []
+			}
+		]
+		createApp({
+			setup() {
+				const message = ref('Hello vue!')
+				return {
+					message,
+					category
+				}
+			}
+		}).mount('#app')
+	</script>
 </body>
 
 </html>
