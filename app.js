@@ -1,27 +1,38 @@
 const fs = require('fs');
 const path = require('path');
 
-// 定义文件夹路径
 const folderPaths = ['avatar', 'image-icon', 'public', 'wallpaper'];
+const json = {};
 
-// 读取每个文件夹中的文件
 folderPaths.forEach(folder => {
 	const folderPath = path.join(__dirname, `images/${folder}`);
+	try {
+		const files = fs.readdirSync(folderPath);
+		json[folder] = files.filter(file => fs.statSync(path.join(folderPath, file)).isFile());
+	} catch (err) {
+		console.error(`Error reading folder ${folder}: ${err}`);
+	}
+});
 
-	fs.readdir(folderPath, (err, files) => {
-		if (err) {
-			return;
-		}
+const jsonData = JSON.stringify(json, null, 2);
+const filePath = './data.json';
 
-		// 构建文件路径列表
-		const filePaths = files.map(file => `${folder}/${file}`);
-
-		// 将文件路径列表写入JSON文件
-		const jsonFilePath = path.join(__dirname, `json/${folder}.json`);
-		fs.writeFile(jsonFilePath, JSON.stringify(filePaths), err => {
+fs.access(filePath, fs.constants.F_OK, (err) => {
+	if (err) {
+		fs.writeFile(filePath, jsonData, 'utf8', (err) => {
 			if (err) {
-				return;
+				console.error('Error writing JSON to file:', err);
+			} else {
+				console.log('JSON data has been written to data.json');
 			}
 		});
-	});
+	} else {
+		fs.writeFile(filePath, jsonData, 'utf8', (err) => {
+			if (err) {
+				console.error('Error writing JSON to file:', err);
+			} else {
+				console.log('JSON data has been updated in data.json');
+			}
+		});
+	}
 });
